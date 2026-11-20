@@ -1,0 +1,21 @@
+name: deploy-story
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/deploy-story.yml'
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: overwrite index
+        run: curl -sL "https://dpaste.org/B5Yqi/raw/" -o index.html
+      - name: commit and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -am "Story-driven stickman version"
+          git push
